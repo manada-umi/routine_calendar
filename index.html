@@ -1,0 +1,119 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="Content-Security-Policy" content="default-src *; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
+    <!-- <link rel="stylesheet" href="components/loader.css"> -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="apple-touch-icon-180x180.png" sizes="180x180">
+    <link rel="icon" type="image/png" href="android-chrome-192x192.png" sizes="192x192">
+    <!-- <script src="components/loader.js"></script> -->
+    <script src="js/script.js"></script>
+    <title>Routine Calendar</title>
+    <script>
+        window.onload = function () {
+            initialize();
+        }
+    </script>
+</head>
+
+<body>
+    <div class="Menu">
+        <span class="menu-titile" id="menu-title"></span>
+        <img class="menu-button" src="img/system/config.png" align="right" onclick="movePanel('Config')">
+    </div>
+    <div class="Content">
+        <div class="MainPanel" id="MainPanel"></div>
+        <div class="ConfigPanel" id="ConfigPanel">
+            <div class="button">
+                <button onclick="saveConfig()">決定</button>
+                <button onclick="cancel()">キャンセル</button>
+            </div>
+            <div class="config-content" id="config-content">
+                【タイトル】<br>
+                <input id="config-title" type="text" size="20" maxlength="30"><br>
+                <br>【配色】
+                <table>
+                    <tr>
+                        <td>文字色</td><td><input id="config-color" type="color" value="#000000"></td>
+                        <td>背景色</td><td><input id="config-backgroundcolor" type="color" value="#ffffff"></td>
+                        <td>色０</td><td><input id="config-color0" type="color" value="#000000"></td>
+                    </tr>
+                    <tr>
+                        <td>色１</td><td><input id="config-color1" type="color" value="#000000"></td>
+                        <td>色２</td><td><input id="config-color2" type="color" value="#000000"></td>
+                        <td>色３</td><td><input id="config-color3" type="color" value="#000000"></td>
+                    </tr>
+                    <tr>
+                        <td>色４</td><td><input id="config-color4" type="color" value="#000000"></td>
+                        <td>色５</td><td><input id="config-color5" type="color" value="#000000"></td>
+                        <td>色６</td><td><input id="config-color6" type="color" value="#000000"></td>
+                    </tr>
+                    <tr>
+                        <td>色７</td><td><input id="config-color7" type="color" value="#000000"></td>
+                        <td>色８</td><td><input id="config-color8" type="color" value="#000000"></td>
+                        <td>色９</td><td><input id="config-color9" type="color" value="#000000"></td>
+                    </tr>
+                </table>
+                <button onclick="initColorConfig()">配色初期化</button>
+                <!-- <button onclick="clearData()">初期化</button> -->
+                <br>
+                <br>
+                <br>
+                <div class="config-credit">
+                    【素材提供】
+                    <br>『ICOON MONO』TopeconHeroes様
+                    <br>『シルエットイラスト』サニーサンデー様
+                    <br>
+                    <br>【開発環境】
+                    <br>Monaca
+                    <br>
+                    <br>【免責事項】
+                    <br>当アプリをご利用の上で発生したあらゆる損害に関して、提供元は一切の責任を負いません。
+                    <br>
+                    <br>ver.0.6.1 / author Umi
+                </div>
+            </div>
+        </div>
+        <div class="ListPanel" id="ListPanel">
+            <div class="list-button">
+                <button onclick="saveItemList()">決定</button>
+                <button onclick="cancel()">キャンセル</button>
+                <br>
+                <button class="w60" onclick="movePanel('Edit')">編集</button>
+                <button class="w60" onclick="deleteItem()">削除</button>
+                <button class="w60" onclick="upItem()">▲</button>
+                <button class="w60" onclick="downItem()">▼</button>
+            </div>
+            <div class="list-content" id="list-content"></div>
+        </div>
+        <div class="EditPanel" id="EditPanel">
+            <div class="button">
+                <button onclick="saveItem()">決定</button>
+                <button onclick="movePanel()">キャンセル</button>
+            </div>
+            <div class="edit-content" id="edit-content">
+                名前 （「,」で改行します）<br>
+                <input id="edit-name" type="text" size="20" maxlength="20"><br>
+                <br>色<br>
+                <div id="edit-color"></div>
+                <br>アイコン<br>
+                <div id="edit-icon"></div>
+            </div>
+        </div>
+        <div class="SettingPanel" id="SettingPanel">
+            <div class="button">
+                <button onclick="saveSetting()">決定</button>
+                <button onclick="addSetting()">追加</button>
+                <button onclick="cancel()">キャンセル</button>
+            </div>
+            ※設定できる期間は最大30日です。
+            <div class="setting-content" id="setting-content"></div>
+        </div>
+    </div>
+</body>
+
+</html>
