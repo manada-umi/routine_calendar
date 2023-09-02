@@ -169,9 +169,9 @@ function drowTitle() {
 function drowItemGrid() {
     var str = '';
     var d = new Date();
-    d.setDate(d.getDate() - d.getDay());
+    d.setDate(d.getDate() - d.getDay() - 1);
     data.dayList.forEach(function (items, index) {
-        d.setDate(d.getDate() + index);
+        d.setDate(d.getDate() + 1);
         str += drowDayBox(items, index, d);
     });
     drow('main-content', str);
