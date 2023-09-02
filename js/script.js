@@ -3,8 +3,8 @@ var STORAGE_NAME = 'manada_umi-routine_calendar_sd';
 var ICON_LIST = ['task/box',
     'task/home', 'task/hammer', 'task/gardening', 'task/beer', 'task/cook', 'task/clothes',
     'task/book', 'task/note', 'task/document', 'task/PC', 'task/PC2', 'task/game', 'task/microphone',
-    'task/park', 'task/sea', 'task/sport', 'task/camp', 'task/painting', 'task/trip', 'task/bag', 'task/hospital',
-    'task/bed', 'task/broom', 'task/dustcloth', 'task/laundry', 'task/hanger', 'task/garbage'
+    'task/park', 'task/sea', 'task/sport', 'task/camp', 'task/painting', 'task/trip', 'task/bag', 'task/bag2', 'task/hospital',
+    'task/bed', 'task/broom', 'task/broom2', 'task/dustcloth', 'task/laundry', 'task/hanger', 'task/garbage'
 ];
 var PANEL_LIST = ['Main', 'List', 'Edit', 'Config'];
 
@@ -67,11 +67,10 @@ function clearData() {
 }
 
 // javascript共通クラス
-function getDate() {
-    var d = new Date();
-    var yy = d.getFullYear();
-    var mm = ('00' + (d.getMonth() + 1)).slice(-2);
-    var dd = ('00' + d.getDate()).slice(-2);
+function getDateString(dataObj) {
+    var yy = dataObj.getFullYear();
+    var mm = ('00' + (dataObj.getMonth() + 1)).slice(-2);
+    var dd = ('00' + dataObj.getDate()).slice(-2);
     return yy + '/' + mm + '/' + dd;
 }
 
@@ -169,16 +168,19 @@ function drowTitle() {
 
 function drowItemGrid() {
     var str = '';
+    var d = new Date();
+    d.setDate(d.getDate() - d.getDay());
     data.dayList.forEach(function (items, index) {
-        str += drowDayBox(items, index);
+        d.setDate(d.getDate() + index);
+        str += drowDayBox(items, index, d);
     });
-    drow('MainPanel', str);
+    drow('main-content', str);
 }
 
-function drowDayBox(items, index) {
+function drowDayBox(items, index, dateObj) {
     var str = '';
     str += '<div class="main-holidays">';
-    str += '<div class="main-day">' + getDayOfWeek(index) + '</div>';
+    str += '<div class="main-day">' + getDayOfWeek(index) + '<br><span class="main-date">' + getDateString(dateObj).slice(5) + '</span></div>';
     str += '<div class="main-items">';
     items.itemList.forEach(function (item, index) {
         str += drowItemBox(item, index);
@@ -202,7 +204,7 @@ function drowItemBox(item, index) {
     str += '<div class="main-item" id="main-item' + item.dateNumber + '-' + index + '" style="background-color:' + color + '"';
     str += ' onclick="pushItem(\'' + item.dateNumber + '\',\'' + index + '\')">';
     str += '<img class="main-item" src="img/' + item.image + '.png">';
-    str += '<div class="main-item-name">' + item.name.replace(',', '<br>') + '</div>';
+    str += '<div class="main-item-name">' + item.name + '<br>' + item.date.slice(5) + '</div>';
     str += '</div>';
     return str;
 }
@@ -292,6 +294,15 @@ function cancel() {
     movePanel('Main');
 }
 
+function reset() {
+    data.dayList.forEach(function (items) {
+        items.itemList.forEach(function (item, index) {
+            item.on = false;
+        });
+    });
+    movePanel('Main');
+}
+
 function pushItem(id1, id2) {
     var item = data.dayList[id1].itemList[id2];
     if (!item.on) {
@@ -300,8 +311,9 @@ function pushItem(id1, id2) {
         getStyle('main-item' + id1 + '-' + id2).backgroundColor = data.colorpalette[0];
     }
     item.on = !item.on;
-    if (item.on) item.date = getDate();
+    if (item.on) item.date = getDateString(new Date());
     save(data);
+    if (item.on) movePanel('Main');
 }
 
 function deleteItem() {

@@ -88,12 +88,15 @@ div.main-day {
     margin: 2px;
     height: 62px;
     width: 62px;
-    font-size: 18pt;
+    font-size: 16pt;
     text-align: center;
-    vertical-align: middle;
     border: #999 1px solid;
     border-radius: 10px;
     display: inline-block;
+}
+
+span.main-date {
+    font-size: 10pt;
 }
 
 div.main-menu {
