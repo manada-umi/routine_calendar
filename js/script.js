@@ -169,7 +169,11 @@ function drowTitle() {
 function drowItemGrid() {
     var str = '';
     var d = new Date();
-    d.setDate(d.getDate() - d.getDay());
+    if (d.getDay() == 0) {
+        d.setDate(d.getDate() - d.getDay() - 7);
+    } else {
+        d.setDate(d.getDate() - d.getDay());
+    }
     data.dayList.forEach(function (items, index) {
         d.setDate(d.getDate() + 1);
         str += drowDayBox(items, index, d);
